@@ -1,9 +1,18 @@
-Language Thoughts
+Language
 - C++
-- HTML
-- SQL
 
 Try to assign positions
+- Zach : Max Heap
+- Tom  : Array
+- Sam  : GUI
+- Alex : Trie
+
+Data Structures/Things
+- Max heap for 8 most popular playlists and suggesting most popular playlist a song is in
+- Trie for song names - keep the four most popular song ints at that node
+- Giant array for songs - index is song number, value is tital and popularity
+- GUI
 
 Timeline
-- Get done by end of semester (Good thinking)
+- Meeting next Monday (3/28) @ 7pm
+- Try to get an outline for our parts
