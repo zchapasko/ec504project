@@ -3,5 +3,7 @@ Language Thoughts
 - HTML
 - SQL
 
+Try to assign positions
+
 Timeline
 - Get done by end of semester
