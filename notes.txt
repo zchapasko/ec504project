@@ -1,0 +1,7 @@
+Language Thoughts
+- C++
+- HTML
+- SQL
+
+Timeline
+- Get done by end of semester
