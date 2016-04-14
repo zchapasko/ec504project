@@ -10,8 +10,13 @@
 #include <list>
 #include <string>
 #include <sstream>
+#include <fstream>
 
-#include "playlist_item.h"
+#include "Trie.h"
+#include "Song.h"
+
+#define NUM_PLAYLISTS (5504)
+#define NUM_SONGS (3168)
 
 class gui : public QWidget
 {
@@ -40,8 +45,19 @@ private slots:
 	void add_song_button_handler();
 	void add_update_suggestions(const QString &);
 	void add_remove_all_song_button_handler();
+	void load_save_info();
 
 private:
+	/***** Declare Data Structures *****/
+	song_obj songs_ds[NUM_SONGS];
+	playlist_obj playlists_ds[NUM_PLAYLISTS];
+	trie_obj trie;
+	song_obj *displayed_song;
+	song_obj *add_displayed_song;
+	std::list<song_obj*> add_songs;
+	std::list<playlist_obj*> top_eight;
+
+	/***** Declare GUI Objects *****/
 	QStackedWidget* window;
 	QVBoxLayout *window_layout;
 	QWidget* main_page;
