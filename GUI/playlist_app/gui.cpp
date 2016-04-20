@@ -5,6 +5,7 @@ gui::gui(QWidget *parent) : QWidget(parent)
 {
 	/***** Initialize Data Structures *****/
 	load_save_info();
+	load_playlist_info();
 
 	/***** Generate GUI *****/
 	generate_main_page();
@@ -26,6 +27,11 @@ gui::gui(QWidget *parent) : QWidget(parent)
 	window_layout = new QVBoxLayout;
 	window_layout->addWidget(window);
 	setLayout(window_layout);
+}
+
+void gui::load_playlist_info()
+{
+	list_of_playlists = new PlaylistList("day00.txt", songs_ds);
 }
 
 void gui::load_save_info()
@@ -116,25 +122,33 @@ void gui::generate_main_page()
 	add_playlist_button = new QPushButton("Add", this);
 	connect(add_playlist_button, SIGNAL(clicked()), this, SLOT(add_playlist_button_handler()));
 
+	// Choose Text Color
+	QPalette text;
+	text.setColor(QPalette::WindowText, Qt::white);
+
 	// Initialize Playlist Label
 	playlist_label = new QLabel(this);
 	playlist_label->setFrameStyle(QFrame::NoFrame);
 	playlist_label->setText("Top 8 Playlists:");
+	playlist_label->setPalette(text);
 
 	// Initialize Songs Label
 	songs_label = new QLabel(this);
 	songs_label->setFrameStyle(QFrame::NoFrame);
 	songs_label->setText("Songs:");
+	songs_label->setPalette(text);
 
 	// Initialize Current Song Title Label
 	current_label = new QLabel(this);
 	current_label->setFrameStyle(QFrame::NoFrame);
 	current_label->setText("Now Playing:");
+	current_label->setPalette(text);
 
 	// Initialize Current Song Label
 	current_song_label = new QLabel(this);
 	current_song_label->setFrameStyle(QFrame::NoFrame);
 	current_song_label->setText("");
+	current_song_label->setPalette(text);
 
 	// Initialize QCompleter WordList Model
 	word_model = new QStringListModel();
@@ -394,7 +408,7 @@ void gui::update_playlists()
 	}
 	else
 	{
-		get_top_eight(&top_eight);
+		top_eight = list_of_playlists->get_top_eight(0);
 		for(std::list<playlist_obj*>::iterator it = top_eight.begin(); it != top_eight.end(); it++)
 		{
 			if(*it != NULL)
@@ -533,6 +547,15 @@ void gui::add_load_file_button_handler()
 {
 	
 	string file_name = add_load_file->text().toStdString();
+	list_of_playlists->insert_playlists(file_name);
+	add_songs.clear();
+	add_displayed_song = NULL;
+	add_selected_songs_list->clear();
+	add_popularity->setText("0");
+	add_search_song->setText("");
+	add_load_file->setText("");
+	add_selected_song_label->setText(" - No song selected - ");
+	window->setCurrentIndex(0);
 
 	
 }

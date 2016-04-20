@@ -14,9 +14,12 @@
 
 #include "Trie.h"
 #include "Song.h"
+#include "PlaylistList.h"
 
 #define NUM_PLAYLISTS (5504)
 #define NUM_SONGS (3168)
+
+class PlaylistList;
 
 class gui : public QWidget
 {
@@ -24,6 +27,7 @@ class gui : public QWidget
 
 public:
 	gui(QWidget *parent = 0);
+
 
 private slots:
 	void help_button_handler();
@@ -46,16 +50,19 @@ private slots:
 	void add_update_suggestions(const QString &);
 	void add_remove_all_song_button_handler();
 	void load_save_info();
+	void load_playlist_info();
 
 private:
 	/***** Declare Data Structures *****/
-	song_obj songs_ds[NUM_SONGS];
 	playlist_obj playlists_ds[NUM_PLAYLISTS];
+	song_obj songs_ds[NUM_SONGS];
 	trie_obj trie;
 	song_obj *displayed_song;
 	song_obj *add_displayed_song;
 	std::list<song_obj*> add_songs;
 	std::list<playlist_obj*> top_eight;
+	PlaylistList *list_of_playlists;
+
 
 	/***** Declare GUI Objects *****/
 	QStackedWidget* window;

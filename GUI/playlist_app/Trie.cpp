@@ -110,3 +110,16 @@ song_obj* trie_obj::verify_is_song(std::string song)
 	}
 	return NULL;
 }
+
+trie_obj::~trie_obj()
+{
+	delete root; 
+}
+
+trie_node::~trie_node()
+{
+	for(int i = 0; i < ASCII_SIZE; i++)
+    {
+        delete children[i];
+    }
+}

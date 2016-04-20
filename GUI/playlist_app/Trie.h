@@ -18,6 +18,7 @@ public:
 	song_obj *topSongs[NUM_POPULAR_SONGS]; //pointers to songs in song array
 
 	void insertTopSong(song_obj *song);
+	~trie_node();
 };
 
 class trie_obj
@@ -28,6 +29,7 @@ public:
 	int count;
 
 	trie_obj();
+	~trie_obj();
 	trie_node* makeNode();
 
 	void insertTrieNode(song_obj *song);
