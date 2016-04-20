@@ -34,10 +34,10 @@ public:
 	bool delete_playlists();						// deletes enough playlists so ll.size() <= MAX_PLAYLISTS
 	int get_min_pop();								// returns minimum popularity of all playlists in list
 	int get_size();									// returns actual length of list object
-	list<playlist_obj*> get_top_eight(bool print);	// returns top 8 playlists; if print is true, also prints them
+	vector<playlist_obj*> get_top_eight(bool print);	// returns top 8 playlists; if print is true, also prints them
 	void print();									// prints list contents
 private:
-	//PlaylistList();									// constructs empty list; disallow default constructor
+	PlaylistList();									// constructs empty list; disallow default constructor
 	list<playlist_obj> ll;							// list of playlists
 	int min_popularity;								// keeps track of lowest popularity score in the list
 	song_obj *songs_ds;								// pointer to song array

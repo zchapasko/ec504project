@@ -161,7 +161,7 @@ void gui::generate_main_page()
 	// Initialize Search Bar
 	search_bar = new QLineEdit("", this);
 	search_bar->setReadOnly(false);
-	search_bar->setAlignment(Qt::AlignRight | Qt::AlignTop);
+	search_bar->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	search_bar->setCompleter(completer);
 	search_bar->installEventFilter(this);
 	connect(search_bar, SIGNAL(textEdited(const QString &)), this, SLOT(update_suggestions(const QString &)));
@@ -284,7 +284,7 @@ void gui::generate_add_page()
 	// Initialize Song Search Bar
 	add_search_song = new QLineEdit("", this);
 	add_search_song->setReadOnly(false);
-	add_search_song->setAlignment(Qt::AlignRight | Qt::AlignTop);
+	add_search_song->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	add_search_song->setCompleter(add_completer);
 	add_search_song->installEventFilter(this);
 	connect(add_search_song, SIGNAL(textEdited(const QString &)), this, SLOT(add_update_suggestions(const QString &)));
@@ -405,11 +405,12 @@ void gui::update_playlists()
 		}
 		string temp_label = "Playlists for \"" + displayed_song->name + "\":";
 		playlist_label->setText(QString::fromStdString(temp_label));
+		top_eight_displayed = false;
 	}
 	else
 	{
 		top_eight = list_of_playlists->get_top_eight(0);
-		for(std::list<playlist_obj*>::iterator it = top_eight.begin(); it != top_eight.end(); it++)
+		for(std::vector<playlist_obj*>::iterator it = top_eight.begin(); it != top_eight.end(); it++)
 		{
 			if(*it != NULL)
 			{
@@ -426,6 +427,7 @@ void gui::update_playlists()
 			}
 		}
 		playlist_label->setText("Top 8 Playlists:");
+		top_eight_displayed = true;
 	}
 }
 
@@ -434,14 +436,27 @@ void gui::update_songs()
 	songs->clear();
 	int row = 0;
 	int index = playslists->currentRow();
-	if(displayed_song->topPlaylists[index] != NULL)
+	if(top_eight_displayed)
 	{
-		for(std::vector<song_obj*>::iterator it = displayed_song->topPlaylists[index]->songs.begin(); it != displayed_song->topPlaylists[index]->songs.end(); it++)
+		for(std::vector<song_obj*>::iterator it = top_eight[index]->songs.begin(); it != top_eight[index]->songs.end(); it++)
 		{
-			QListWidgetItem *next_item = new QListWidgetItem();
-			QString next_text = QString::fromStdString((*it)->name);
-			next_item->setText(next_text);
-			songs->insertItem(row++, next_item);
+				QListWidgetItem *next_item = new QListWidgetItem();
+				QString next_text = QString::fromStdString((*it)->name);
+				next_item->setText(next_text);
+				songs->insertItem(row++, next_item);
+		}
+	}
+	else
+	{
+		if(displayed_song->topPlaylists[index] != NULL)
+		{
+			for(std::vector<song_obj*>::iterator it = displayed_song->topPlaylists[index]->songs.begin(); it != displayed_song->topPlaylists[index]->songs.end(); it++)
+			{
+				QListWidgetItem *next_item = new QListWidgetItem();
+				QString next_text = QString::fromStdString((*it)->name);
+				next_item->setText(next_text);
+				songs->insertItem(row++, next_item);
+			}
 		}
 	}
 }
@@ -450,7 +465,15 @@ void gui::print_song_info()
 {
 	int p_index = playslists->currentRow();
 	int s_index = songs->currentRow();
-	song_obj *temp_song = displayed_song->topPlaylists[p_index]->songs[s_index];
+	song_obj *temp_song;
+	if(top_eight_displayed)
+	{
+		temp_song = top_eight[p_index]->songs[s_index];
+	}
+	else
+	{
+		temp_song = displayed_song->topPlaylists[p_index]->songs[s_index];
+	}
 	string new_text = temp_song->name + " - by - " + temp_song->artist;
 	current_song_label->setText(QString::fromStdString(new_text));
 }
@@ -483,7 +506,7 @@ void gui::add_song_button_handler()
 
 void gui::add_remove_selected_song_button_handler()
 {
-	for(std::list<song_obj*>::iterator it = add_songs.begin(); it != add_songs.end(); it++)
+	for(std::vector<song_obj*>::iterator it = add_songs.begin(); it != add_songs.end(); it++)
 	{
 		if((*it)->name == add_selected_songs_list->currentItem()->text().toStdString())
 		{
@@ -520,8 +543,11 @@ void gui::add_save_playlist_button_handler()
 	popularity = atoi(add_popularity->text().toStdString().c_str());
 	if (add_popularity->text().length() == (int)int_to_string(popularity).length() || popularity <= 0)
 	{
+		playlist_obj temp;
+		temp.songs = add_songs;
+		temp.popularity = popularity;
 		// Try saving the playlist
-		if (save_new_playlist(&add_songs, popularity))
+		if (list_of_playlists->insert_playlist(temp))
 		{
 			add_songs.clear();
 			add_displayed_song = NULL;
@@ -556,6 +582,11 @@ void gui::add_load_file_button_handler()
 	add_load_file->setText("");
 	add_selected_song_label->setText(" - No song selected - ");
 	window->setCurrentIndex(0);
+	if(top_eight_displayed)
+	{
+		playslists->clear();
+		update_playlists();
+	}
 
 	
 }

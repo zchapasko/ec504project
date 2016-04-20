@@ -105,10 +105,10 @@ int PlaylistList::get_size(){
     return int(ll.size());
 }
 
-list<playlist_obj*> PlaylistList::get_top_eight(bool print){
+vector<playlist_obj*> PlaylistList::get_top_eight(bool print){
     int ii;
     list<playlist_obj>::iterator it = ll.begin();
-    list<playlist_obj*> top_eight;
+    vector<playlist_obj*> top_eight;
 
     for(ii = 0; ii < 8; ii++, it++){
         top_eight.push_back(&(*it));

@@ -59,9 +59,10 @@ private:
 	trie_obj trie;
 	song_obj *displayed_song;
 	song_obj *add_displayed_song;
-	std::list<song_obj*> add_songs;
-	std::list<playlist_obj*> top_eight;
+	std::vector<song_obj*> add_songs;
+	std::vector<playlist_obj*> top_eight;
 	PlaylistList *list_of_playlists;
+	bool top_eight_displayed;
 
 
 	/***** Declare GUI Objects *****/
