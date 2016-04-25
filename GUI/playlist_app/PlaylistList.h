@@ -30,7 +30,7 @@ class PlaylistList {
 public:
 	PlaylistList(string filename, song_obj *songs_ds);					// constructs list from file
 	bool insert_playlist(playlist_obj node_to_add);	// inserts a single playlist
-	void insert_playlists(string filename);			// insert playlists from file
+	bool insert_playlists(string filename);			// insert playlists from file
 	bool delete_playlists();						// deletes enough playlists so ll.size() <= MAX_PLAYLISTS
 	int get_min_pop();								// returns minimum popularity of all playlists in list
 	int get_size();									// returns actual length of list object

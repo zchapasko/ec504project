@@ -27,6 +27,7 @@ class gui : public QWidget
 
 public:
 	gui(QWidget *parent = 0);
+	~gui();
 
 
 private slots:
@@ -49,14 +50,14 @@ private slots:
 	void add_song_button_handler();
 	void add_update_suggestions(const QString &);
 	void add_remove_all_song_button_handler();
-	void load_save_info();
+	void load_song_info();
 	void load_playlist_info();
+	void build_trie();
 
 private:
 	/***** Declare Data Structures *****/
-	playlist_obj playlists_ds[NUM_PLAYLISTS];
 	song_obj songs_ds[NUM_SONGS];
-	trie_obj trie;
+	trie_obj *trie;
 	song_obj *displayed_song;
 	song_obj *add_displayed_song;
 	std::vector<song_obj*> add_songs;
@@ -121,6 +122,11 @@ private:
 	QLineEdit *add_popularity;
 
 	QListWidget *add_selected_songs_list;
+
+	// Theme (Window color is set in main.cpp)
+	QPalette text;
+	QPalette win;
+
 };
 
 #endif

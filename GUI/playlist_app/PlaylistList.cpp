@@ -57,7 +57,7 @@ bool PlaylistList::delete_playlists(){
     return true;
 }
 
-void PlaylistList::insert_playlists(string filename){
+bool PlaylistList::insert_playlists(string filename){
     // file reading variables
     playlist_obj temp;
     size_t first, second;
@@ -92,8 +92,10 @@ void PlaylistList::insert_playlists(string filename){
         }
         playlist_file.close();
         delete_playlists();
+        return true;
     } else {
         cout << "Error reading file!" << endl;
+        return false;
     }
 }
 
