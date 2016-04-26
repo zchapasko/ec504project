@@ -588,7 +588,7 @@ void gui::add_remove_all_song_button_handler()
 void gui::add_back_playlist_button_handler()
 {
 	// Check to see if any changes have been made to popularity or songs list
-	if(add_songs.size() != 0 || add_popularity->text() != "0" || add_popularity->text() != "")
+	if(add_songs.size() != 0 || (add_popularity->text() != "0" && add_popularity->text() != ""))
 	{
 		// If changes have been made, ask user if they really want to go back without saving
 		QMessageBox messageBox;
