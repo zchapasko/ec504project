@@ -27,6 +27,7 @@ public:
 	playlist_obj *topPlaylists[NUM_POPULAR_PLAYLISTS];
 
 	void insertTopPlaylist(playlist_obj *playlist);
+	void deleteTopPlaylist(playlist_obj *playlist);
 };
 
 #endif

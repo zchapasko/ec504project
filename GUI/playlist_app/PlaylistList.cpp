@@ -31,7 +31,22 @@ bool PlaylistList::insert_playlist(playlist_obj node_to_add){
 
     for(it = ll.begin(); it != ll.end(); ++it){
         if(it -> popularity <= node_to_add.popularity){
+
+            // insert playlist
             ll.insert(it, node_to_add);
+
+            // get pointer to point to playlist that was just added
+            --it;
+
+            // update here
+            vector<song_obj*> temp_songs = it -> songs;
+            vector<song_obj*>::iterator jj;
+            for(jj = temp_songs.begin(); jj != temp_songs.end(); ++jj){
+                (*jj) -> insertTopPlaylist(&(*it)); // new line
+                songs_ds[(*jj) -> index].popularity += it -> popularity;
+            }
+
+            // update minimum popularity
             it = --(ll.end());
             min_popularity = it -> popularity;
             return true;
@@ -47,10 +62,23 @@ bool PlaylistList::delete_playlists(){
         return false;
     }
 
+    list<playlist_obj>::iterator ii;
+    vector<song_obj*> temp;
+    vector<song_obj*>::iterator jj;
+
     int nodes_to_delete = ll.size() - MAX_PLAYLISTS;
     while(nodes_to_delete > 0){
         --nodes_to_delete;
-        ll.erase(--ll.end());
+        ii = --(ll.end());
+
+        // update songs_ds here
+        temp = ii -> songs;
+        for(jj = temp.begin(); jj != temp.end(); ++jj){
+            (*jj) -> deleteTopPlaylist(&(*ii)); // new line
+            songs_ds[(*jj) -> index].popularity -= ii -> popularity;
+        }
+
+        ll.erase(ii);
     }
 
     min_popularity = (--ll.end()) -> popularity;

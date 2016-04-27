@@ -19,3 +19,19 @@ void song_obj::insertTopPlaylist(playlist_obj *playlist)
 		}
 	}
 }
+
+void song_obj::deleteTopPlaylist(playlist_obj *playlist)
+{
+	for(int i = 0; i < NUM_POPULAR_PLAYLISTS; i++)
+	{
+		//if top playlist doesn't exist
+		if(!(this->topPlaylists[i]))
+		{
+			break;
+		}
+		else if(this->topPlaylists[i] == playlist)
+		{
+			this->topPlaylists[i]=NULL;
+		}
+	}
+}
