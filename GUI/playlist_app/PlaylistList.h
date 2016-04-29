@@ -20,11 +20,6 @@ using namespace std;
 #define NUM_SONGS (3168)
 #define MAX_PLAYLISTS (1024)
 
-// struct list_node
-// {
-// 	vector<int> playlist;
-// 	unsigned char popularity;
-// };
 
 class PlaylistList {
 public:
