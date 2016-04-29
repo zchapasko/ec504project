@@ -1,5 +1,7 @@
 #include "Song.h"
 
+
+//add top 8 most popular playlists for song
 void song_obj::insertTopPlaylist(playlist_obj *playlist)
 {
 	playlist_obj *temp = NULL;
@@ -11,6 +13,7 @@ void song_obj::insertTopPlaylist(playlist_obj *playlist)
 			this->topPlaylists[i] = playlist;
 			break;
 		}
+		//bubble down playlists if this playlist is more popular
 		else if(this->topPlaylists[i]->popularity < playlist->popularity)
 		{
 			temp = this->topPlaylists[i];
@@ -20,6 +23,7 @@ void song_obj::insertTopPlaylist(playlist_obj *playlist)
 	}
 }
 
+//if a playlist is removed from the top 1024, this removes it from the song's top 8 (if it exists)
 void song_obj::deleteTopPlaylist(playlist_obj *playlist)
 {
 	for(int i = 0; i < NUM_POPULAR_PLAYLISTS; i++)

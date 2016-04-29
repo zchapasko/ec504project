@@ -17,7 +17,7 @@ public:
 	trie_node *children[ASCII_SIZE]; //pointers to other nodes
 	song_obj *topSongs[NUM_POPULAR_SONGS]; //pointers to songs in song array
 
-	void insertTopSong(song_obj *song);
+	void insertTopSong(song_obj *song); //create list of top songs for node
 	~trie_node();
 };
 
@@ -30,11 +30,11 @@ public:
 
 	trie_obj();
 	~trie_obj();
-	trie_node* makeNode();
+	trie_node* makeNode(); //add new node to trie
 
-	void insertTrieNode(song_obj *song);
-	void get_new_suggestions(std::string prefix, std::list<std::string> *items);
-	song_obj* verify_is_song(std::string song);
+	void insertTrieNode(song_obj *song); //add song name to trie
+	void get_new_suggestions(std::string prefix, std::list<std::string> *items); //get top songs at node
+	song_obj* verify_is_song(std::string song); //check if song name exists in trie
 
 };
 

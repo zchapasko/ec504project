@@ -9,6 +9,8 @@ using namespace std;
 #define NUM_POPULAR_PLAYLISTS (8)
 
 class song_obj;
+
+//holds playlist
 struct playlist_obj
 {
 	int popularity;
@@ -17,6 +19,7 @@ struct playlist_obj
 
 struct playlist_obj;
 
+//holds songs
 class song_obj 
 {
 public:
